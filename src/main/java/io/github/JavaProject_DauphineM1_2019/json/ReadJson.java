@@ -1,4 +1,4 @@
-package io.github.JavaProject_DauphineM1_2019;
+package io.github.JavaProject_DauphineM1_2019.json;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,7 +11,15 @@ import java.io.FileReader;
 
 public class ReadJson {
 
-	// https://www.javaguides.net/2019/07/jsonsimple-tutorial-read-and-write-json-in-java.html
+	/**
+	 * This method read a json file and store informations in a hashmap.
+	 * Method write with the help of // https://www.javaguides.net/2019/07/jsonsimple-tutorial-read-and-write-json-in-java.html
+	 * 
+	 * @param nomFichier 	not <code>null</code>
+	 * @param key1 			not <code>null</code>
+	 * @param key2			not <code>null</code>
+	 * @return content
+	 */
 	@SuppressWarnings("unchecked")
 	public static HashMap<String, ArrayList<String>> getInfosFromJSON(String nomFichier, String key1, String key2) {
 		HashMap<String, ArrayList<String>> content = new HashMap<String, ArrayList<String>>();
@@ -31,6 +39,7 @@ public class ReadJson {
 			jsonArray.forEach(type -> {
 				JSONObject o = (JSONObject) type;
 				ArrayList<String>valueList=new ArrayList<>();
+				// if a key have multiple values
 				if (o.get(key2) instanceof JSONArray) {
 					JSONArray listVerif = (JSONArray) o.get(key2);
 					listVerif.forEach(ele -> {

@@ -8,10 +8,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import io.github.JavaProject_DauphineM1_2019.ReadJson;
-
 class ReadJsonTest {
 
+	/**
+	 * this method test getInfosFromJSON method in ReadJson class
+	 * this method test when a key have one or multiple values
+	 */
 	@Test
 	void test() {		
 		HashMap<String, ArrayList<String>> content = new HashMap<String, ArrayList<String>>();
