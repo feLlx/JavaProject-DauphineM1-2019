@@ -2,47 +2,55 @@ package io.github.JavaProject_DauphineM1_2019.json;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.junit.jupiter.api.Test;
+
+import io.github.JavaProject_DauphineM1_2019.ReadJson;
 
 class ReadJsonTest {
 
-	@SuppressWarnings("unchecked")
 	@Test
-	void test() {
-		String nameFile = "AnonymisationRules.json";
-		ArrayList<String> nameList = new ArrayList<>();
-		ArrayList<String> dataList = new ArrayList<>();
-
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		File file = new File(classLoader.getResource(nameFile).getFile());
-
-		JSONParser jsonParser = new JSONParser();
-
-		try {
-			FileReader reader = new FileReader(file);
-			Object obj = jsonParser.parse(reader);
-			JSONArray jsonArray = (JSONArray) obj;
-
-			jsonArray.forEach(type -> {
-				JSONObject o = (JSONObject) type;
-				nameList.add((String) o.get("name"));
-				dataList.add((String) o.get("changeTo"));
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	void test() {		
+		HashMap<String, ArrayList<String>> content = new HashMap<String, ArrayList<String>>();
 		
-		assertEquals("NOM", nameList.get(0));
-		assertEquals("RANDOM_LETTER", dataList.get(0));
-		assertEquals("EMAIL_PERSO", nameList.get(1));
-		assertEquals("RANDOM_LETTER_FOR_LOCAL_PART", dataList.get(1));
+		content = ReadJson.getInfosFromJSON("ObjectsDescription.json", "name", "dataType");
+		
+		List<String> valueList = new ArrayList<>();
+		valueList.add("STRING");
+		List<String> valueList2 = new ArrayList<>();
+		valueList2.add("INT");
+		
+		assertEquals(true, content.containsKey("NOM"));
+		assertEquals(valueList, content.get("NOM"));
+		assertEquals(true, content.containsKey("AGE"));
+		assertEquals(valueList2, content.get("AGE"));
+		assertEquals(true, content.containsKey("DATE_DE_NAISSANCE"));
+		assertEquals(valueList, content.get("DATE_DE_NAISSANCE"));
+		assertEquals(true, content.containsKey("EMAIL_PRO"));
+		assertEquals(valueList, content.get("EMAIL_PRO"));
+		assertEquals(true, content.containsKey("EMAIL_PERSO"));
+		assertEquals(valueList, content.get("EMAIL_PERSO"));
+		
+		content = ReadJson.getInfosFromJSON("VerificationRules.json", "name", "should");
+		
+		List<String> valueList3 = new ArrayList<>();
+		valueList3.add("BE_AN_AGE");
+		List<String> valueList4 = new ArrayList<>();
+		valueList4.add("BE_AN_EMAIL");
+		List<String> valueList5 = new ArrayList<>();
+		valueList5.add("BE_AN_EMAIL");
+		valueList5.add("BE_AN_DAUPHINE_EMAIL");
+		
+		assertEquals(true, content.containsKey("AGE"));
+		assertEquals(valueList3, content.get("AGE"));
+		assertEquals(true, content.containsKey("EMAIL_PRO"));
+		assertEquals(valueList5, content.get("EMAIL_PRO"));
+		assertEquals(true, content.containsKey("EMAIL_PERSO"));
+		assertEquals(valueList4, content.get("EMAIL_PERSO"));
 	}
+
 }
 
