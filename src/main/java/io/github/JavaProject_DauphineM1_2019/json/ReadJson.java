@@ -15,17 +15,17 @@ public class ReadJson {
 	 * This method read a json file and store informations in a hashmap.
 	 * Method write with the help of // https://www.javaguides.net/2019/07/jsonsimple-tutorial-read-and-write-json-in-java.html
 	 * 
-	 * @param nomFichier 	not <code>null</code>
+	 * @param fileName 	not <code>null</code>
 	 * @param key1 			not <code>null</code>
 	 * @param key2			not <code>null</code>
 	 * @return content
 	 */
 	@SuppressWarnings("unchecked")
-	public static HashMap<String, ArrayList<String>> getInfosFromJSON(String nomFichier, String key1, String key2) {
+	public static HashMap<String, ArrayList<String>> getInfosFromJSON(String fileName, String key1, String key2) {
 		HashMap<String, ArrayList<String>> content = new HashMap<String, ArrayList<String>>();
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		File file = new File(classLoader.getResource(nomFichier).getFile());
+		File file = new File(classLoader.getResource(fileName).getFile());
 
 		JSONParser jsonParser = new JSONParser();
 
