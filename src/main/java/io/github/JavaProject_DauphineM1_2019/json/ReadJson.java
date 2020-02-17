@@ -15,7 +15,7 @@ public class ReadJson {
 	 * This method read a json file and store informations in a hashmap.
 	 * Method write with the help of // https://www.javaguides.net/2019/07/jsonsimple-tutorial-read-and-write-json-in-java.html
 	 * 
-	 * @param fileName 	not <code>null</code>
+	 * @param fileName 		not <code>null</code>
 	 * @param key1 			not <code>null</code>
 	 * @param key2			not <code>null</code>
 	 * @return content
