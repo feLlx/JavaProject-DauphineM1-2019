@@ -49,7 +49,6 @@ public class ReadJson {
 				else valueList.add((String) o.get(key2));
 				content.put((String) o.get(key1), valueList);
 			});
-			System.out.println(content);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
