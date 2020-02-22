@@ -19,8 +19,12 @@ public class Rules {
 	}
 	
 	public static boolean BE_AN_AGE(String data) {
-		int value = Integer.parseInt(data);
-		return value > 1 && value < 100;
+		try {
+			int value = Integer.parseInt(data);
+			return value > 1 && value < 100;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	public static boolean BE_AN_EMAIL(String data) {
@@ -30,9 +34,11 @@ public class Rules {
 	}
 	
 	public static boolean BE_AN_DAUPHINE_EMAIL(String data) {
-		Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[dauphine]+(\\.[A-Za-z0-9]+)*+\\.[A-Za-z]{2,4}");
+		// A REVOIR - NE MARCHE PAS
+		/*Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[dauphine]+(\\.[A-Za-z0-9]+)*+\\.[A-Za-z]{2,4}");
         Matcher mat = pattern.matcher(data);
-		return mat.matches();
+		return mat.matches();*/
+		return true;
 	}
 
 }

@@ -21,91 +21,83 @@ import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
 public class CheckAndWriteData {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
-	private HashMap<String, ArrayList<String>> contentDescription = new HashMap<String, ArrayList<String>>();
-	private HashMap<String, Method> contentMethod= new HashMap<String, Method>();
-	private HashMap<Integer, List<String>> contentFileCsv= new HashMap<Integer, List<String>>();
+	private HashMap<String, ArrayList<String>> contentJson = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, ArrayList<Method>> contentMethod = new HashMap<String, ArrayList<Method>>();
+	private HashMap<Integer, List<String>> contentFileCsv = new HashMap<Integer, List<String>>();
 	private static final AtomicInteger count = new AtomicInteger(0);
 	private Rules rulesInstance = new Rules();
 
-	public void getInvokeMethod(String fileName) {
-		contentDescription = ReadJson.getInfosFromJSON("ObjectsDescription.json", "name", "dataType");
-		for (Entry<String, ArrayList<String>> entry : contentDescription.entrySet()) {
+	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
+		getInvokeMethod(descriptionFile, "name", "dataType");
+		getInvokeMethod(rulesFile, "name", "should");
+		readCsv(inputFile, "", ",", false);
+	}
+
+	public void getInvokeMethod(String descriptionFile, String key1, String key2) {
+		contentJson = ReadJson.getInfosFromJSON(descriptionFile, key1, key2);
+		for (Entry<String, ArrayList<String>> entry : contentJson.entrySet()) {
+			ArrayList<Method> listMethod = new ArrayList<Method>();
+			if (contentMethod.containsKey(entry.getKey())) {
+				listMethod = contentMethod.get(entry.getKey());
+			}
 			for (int i = 0; i < entry.getValue().size(); i ++) {
 				try {
 					Class<?> classWithMethod = Class.forName(rulesInstance.getClass().getCanonicalName());
 					Method method = classWithMethod.getDeclaredMethod(entry.getValue().get(i), String.class);
-					contentMethod.put(entry.getKey().toString(), method);
+					listMethod.add(method);
 				} catch (NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
+			contentMethod.put(entry.getKey().toString(), listMethod);
 		}
 	}
 
-	public void isRecordTrue(String[] fields, String[] data) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void checkAllConditions(String[] fields, String[] data) {
 		List<Boolean> allTrue = new ArrayList<Boolean>();
-		for (int j = 0; j < contentDescription.size(); j++) {
-			if ( (boolean) contentMethod.get(fields[j]).invoke(rulesInstance, data[j]) ) {
-				allTrue.add(true);
-			}
-			else {
-				allTrue.add(false);
-			}
+		for (int j = 0; j < contentMethod.size(); j++) {
+			List<Method> m = contentMethod.get(fields[j]);
+			final int var = j;
+			m.stream().allMatch(i -> {
+				try {
+					allTrue.add((boolean) i.invoke(rulesInstance, data[var]));
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				return true;
+			});
 		}
-		int compteur = 0;
-		for (int k = 0; k < allTrue.size(); k++) {
-			if (allTrue.get(k) == true) {
-				compteur++;
-			}
-		}
-		if (compteur == allTrue.size()) {
+		if (allTrue.stream().allMatch(i -> i == true)) {
 			List<String> result = new ArrayList<String>();
-			for (int l = 0; l < compteur; l++) {
+			for (int l = 0; l < contentMethod.size(); l++) {
 				result.add(data[l]);
 			}
 			contentFileCsv.put(count.incrementAndGet() , result);
 		}
-		allTrue = new ArrayList<Boolean>();
 	}
 
-	public CheckAndWriteData(String fileName) {
-
-		getInvokeMethod(fileName);
+	// method realize thanks to : https://mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+	public void readCsv(String inputFile, String lineSeparator, String dataSeparator, boolean header) {
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile());
+		File file = new File(classLoader.getResource(inputFile).getFile());
 
-		BufferedReader br = null;
-		String line = "";
-		String cvsSplitBy = ",";
 		String[] fields = null;
 		String[] data = null;
-		boolean header = false;
 
-
-		try {
-			br = new BufferedReader(new FileReader(file));
-			while ((line = br.readLine()) != null) {
+		try (BufferedReader br = new BufferedReader(new FileReader(file))){
+			while ((lineSeparator = br.readLine()) != null) {
 				if (header == false) {
-					fields = line.split(cvsSplitBy);
+					fields = lineSeparator.split(dataSeparator);
 					header = true;
 				}
 				else {
-					data = line.split(cvsSplitBy);
-					isRecordTrue(fields, data);
+					data = lineSeparator.split(dataSeparator);
+					checkAllConditions(fields, data);
 				}
-			}
-
-		} catch (IOException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} 
+		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
 		for (Entry<Integer, List<String>> entry : contentFileCsv.entrySet()) {
@@ -116,7 +108,7 @@ public class CheckAndWriteData {
 
 	public static void main(String[] args) throws Exception {
 		@SuppressWarnings("unused")
-		CheckAndWriteData c = new CheckAndWriteData("listeEtudiants.csv");
+		CheckAndWriteData c = new CheckAndWriteData("listeEtudiants.csv", "ObjectsDescription.json", "VerificationRules.json", "listeVerifEtudiants.csv");
 	}
 
 }
