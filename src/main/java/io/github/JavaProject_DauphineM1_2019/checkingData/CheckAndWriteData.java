@@ -56,11 +56,11 @@ public class CheckAndWriteData {
 	public void checkAllConditions(String[] fields, String[] data) {
 		List<Boolean> allTrue = new ArrayList<Boolean>();
 		for (int j = 0; j < contentMethod.size(); j++) {
-			List<Method> m = contentMethod.get(fields[j]);
-			final int var = j;
-			m.stream().allMatch(i -> {
+			List<Method> listMethod = contentMethod.get(fields[j]);
+			final int index = j;
+			listMethod.stream().allMatch(i -> {
 				try {
-					allTrue.add((boolean) i.invoke(rulesInstance, data[var]));
+					allTrue.add((boolean) i.invoke(rulesInstance, data[index]));
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 				}
