@@ -22,6 +22,22 @@ public class CheckAndWriteData {
 	private List<String[]> contentFileCsv =  new ArrayList<String[]>(); 
 	private Rules rulesInstance = new Rules();
 
+	public CheckAndWriteData() {
+	}
+	
+	public HashMap<String, ArrayList<String>> getContentJson() {
+		return contentJson;
+	}
+	public HashMap<String, ArrayList<Method>> getContentMethod() {
+		return contentMethod;
+	}
+	public List<String[]> getContentFileCsv() {
+		return contentFileCsv;
+	}
+	public Rules getRulesInstance() {
+		return rulesInstance;
+	}
+
 	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
 		getInvokeMethod(descriptionFile, "name", "dataType");
 		getInvokeMethod(rulesFile, "name", "should");

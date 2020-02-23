@@ -9,7 +9,7 @@ public class Rules {
 		return data instanceof String;
 	}
 	
-	public static boolean INT(String data) {
+	public boolean INT(String data) {
 		try {
 			Integer.parseInt(data);
 		} catch (Exception e) {
@@ -18,7 +18,7 @@ public class Rules {
 		return true;
 	}
 	
-	public static boolean BE_AN_AGE(String data) {
+	public boolean BE_AN_AGE(String data) {
 		try {
 			int value = Integer.parseInt(data);
 			return value > 1 && value < 100;
@@ -27,13 +27,13 @@ public class Rules {
 		}
 	}
 	
-	public static boolean BE_AN_EMAIL(String data) {
+	public boolean BE_AN_EMAIL(String data) {
 		Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
         Matcher mat = pattern.matcher(data);
 		return mat.matches();
 	}
 	
-	public static boolean BE_AN_DAUPHINE_EMAIL(String data) {
+	public boolean BE_AN_DAUPHINE_EMAIL(String data) {
 		// A REVOIR - NE MARCHE PAS
 		/*Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[dauphine]+(\\.[A-Za-z0-9]+)*+\\.[A-Za-z]{2,4}");
         Matcher mat = pattern.matcher(data);
