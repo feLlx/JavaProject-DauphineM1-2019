@@ -3,6 +3,7 @@ package io.github.JavaProject_DauphineM1_2019.checkingData;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,22 +16,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import io.github.JavaProject_DauphineM1_2019.App;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
 
 public class CheckAndWriteData {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 	private HashMap<String, ArrayList<String>> contentJson = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<Method>> contentMethod = new HashMap<String, ArrayList<Method>>();
-	private HashMap<Integer, List<String>> contentFileCsv = new HashMap<Integer, List<String>>();
-	private static final AtomicInteger count = new AtomicInteger(0);
+	private List<String[]> contentFileCsv =  new ArrayList<String[]>(); 
 	private Rules rulesInstance = new Rules();
 
 	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
 		getInvokeMethod(descriptionFile, "name", "dataType");
 		getInvokeMethod(rulesFile, "name", "should");
 		readCsv(inputFile, "", ",", false);
+		writeCsv(outputFile);
 	}
 
 	public void getInvokeMethod(String descriptionFile, String key1, String key2) {
@@ -68,11 +69,15 @@ public class CheckAndWriteData {
 			});
 		}
 		if (allTrue.stream().allMatch(i -> i == true)) {
-			List<String> result = new ArrayList<String>();
+			String result = ""; 
 			for (int l = 0; l < contentMethod.size(); l++) {
-				result.add(data[l]);
+				result += data[l];
+				if (l != contentMethod.size() - 1)
+					result += ",";
 			}
-			contentFileCsv.put(count.incrementAndGet() , result);
+			System.out.println(result);
+			String[] resultTab = result.split(",");
+			contentFileCsv.add(resultTab);
 		}
 	}
 
@@ -83,7 +88,6 @@ public class CheckAndWriteData {
 		File file = new File(classLoader.getResource(inputFile).getFile());
 
 		String[] fields = null;
-		String[] data = null;
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			while ((lineSeparator = br.readLine()) != null) {
@@ -92,23 +96,26 @@ public class CheckAndWriteData {
 					header = true;
 				}
 				else {
-					data = lineSeparator.split(dataSeparator);
+					String[] data = lineSeparator.split(dataSeparator);
 					checkAllConditions(fields, data);
 				}
 			} 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		for (Entry<Integer, List<String>> entry : contentFileCsv.entrySet()) {
-			LOGGER.info("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
-		}
-
 	}
-
-	public static void main(String[] args) throws Exception {
-		@SuppressWarnings("unused")
-		CheckAndWriteData c = new CheckAndWriteData("listeEtudiants.csv", "ObjectsDescription.json", "VerificationRules.json", "listeVerifEtudiants.csv");
+	
+	public void writeCsv(String outputFile) {
+		String file = "src/main/resources/" + outputFile;
+		try { 
+			FileWriter outputfile = new FileWriter(file); 
+			CSVWriter writer = new CSVWriter(outputfile); 
+			writer.writeAll(contentFileCsv); 
+			writer.close(); 
+		} 
+		catch (IOException e) { 
+			e.printStackTrace(); 
+		}
 	}
 
 }
