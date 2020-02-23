@@ -11,13 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import io.github.JavaProject_DauphineM1_2019.App;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
 
 public class CheckAndWriteData {
@@ -34,10 +29,18 @@ public class CheckAndWriteData {
 		writeCsv(outputFile);
 	}
 
+	/**
+	 * This method read a hashmap that contains method name per fields and store those methods in a hashmap.
+	 * 
+	 * @param descriptionFile		not <code>null</code>
+	 * @param key1					not <code>null</code>
+	 * @param key2					not <code>null</code>
+	 */
 	public void getInvokeMethod(String descriptionFile, String key1, String key2) {
 		contentJson = ReadJson.getInfosFromJSON(descriptionFile, key1, key2);
 		for (Entry<String, ArrayList<String>> entry : contentJson.entrySet()) {
 			ArrayList<Method> listMethod = new ArrayList<Method>();
+			// check if a key already exists and copy the existing method
 			if (contentMethod.containsKey(entry.getKey())) {
 				listMethod = contentMethod.get(entry.getKey());
 			}
@@ -54,6 +57,14 @@ public class CheckAndWriteData {
 		}
 	}
 
+	/**
+	 * This method check if you can apply methods stock in a hashmap to the corresponding data.
+	 * Add true or false in a tab depending on the result
+	 * If there is all true, add datas to a list, if not ignore datas
+	 * 
+	 * @param fields		not <code>null</code>
+	 * @param data			not <code>null</code>
+	 */
 	public void checkAllConditions(String[] fields, String[] data) {
 		List<Boolean> allTrue = new ArrayList<Boolean>();
 		for (int j = 0; j < contentMethod.size(); j++) {
@@ -75,13 +86,20 @@ public class CheckAndWriteData {
 				if (l != contentMethod.size() - 1)
 					result += ",";
 			}
-			System.out.println(result);
 			String[] resultTab = result.split(",");
 			contentFileCsv.add(resultTab);
 		}
 	}
 
-	// method realize thanks to : https://mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+	/**
+	 * This method read a csv and call method checkAllConditions(fields, data)
+	 * method realize thanks to : https://mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+	 * 
+	 * @param inputFile				not <code>null</code>
+	 * @param lineSeparator			not <code>null</code>
+	 * @param dataSeparator			not <code>null</code>
+	 * @param header				not <code>null</code>
+	 */
 	public void readCsv(String inputFile, String lineSeparator, String dataSeparator, boolean header) {
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -91,6 +109,7 @@ public class CheckAndWriteData {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			while ((lineSeparator = br.readLine()) != null) {
+				//first line is the header with fields name
 				if (header == false) {
 					fields = lineSeparator.split(dataSeparator);
 					header = true;
@@ -105,6 +124,12 @@ public class CheckAndWriteData {
 		}
 	}
 	
+	/**
+	 * This method create and write data into a csv file
+	 * Method write with the help of https://howtodoinjava.com/library/parse-read-write-csv-opencsv/
+	 * 
+	 * @param outputFile		not <code>null</code>
+	 */
 	public void writeCsv(String outputFile) {
 		String file = "src/main/resources/" + outputFile;
 		try { 
@@ -117,5 +142,4 @@ public class CheckAndWriteData {
 			e.printStackTrace(); 
 		}
 	}
-
 }
