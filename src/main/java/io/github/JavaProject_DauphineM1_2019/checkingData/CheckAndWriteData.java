@@ -5,12 +5,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
@@ -81,7 +85,7 @@ public class CheckAndWriteData {
 	 * @param fields		not <code>null</code>
 	 * @param data			not <code>null</code>
 	 */
-	public void checkAllConditions(String[] fields, String[] data) {
+	private void checkAllConditions(String[] fields, String[] data) {
 		List<Boolean> allTrue = new ArrayList<Boolean>();
 		for (int j = 0; j < contentMethod.size(); j++) {
 			List<Method> listMethod = contentMethod.get(fields[j]);
