@@ -37,6 +37,7 @@ public class App {
 			String ruleFile = line[2];  
 			String outputFile = line[3];
 			
+			@SuppressWarnings("unused")
 			CheckAndWriteData cw = new CheckAndWriteData(inputFile, descFile, ruleFile, outputFile);
 			LOGGER.info("Application closed");
 		}
