@@ -5,16 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
@@ -29,6 +25,7 @@ public class CheckAndWriteData {
 	public CheckAndWriteData() {
 	}
 	
+	//those getters are created for the CheckAndWriteTest class
 	public HashMap<String, ArrayList<String>> getContentJson() {
 		return contentJson;
 	}
@@ -40,13 +37,6 @@ public class CheckAndWriteData {
 	}
 	public Rules getRulesInstance() {
 		return rulesInstance;
-	}
-
-	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
-		getInvokeMethod(descriptionFile, "name", "dataType");
-		getInvokeMethod(rulesFile, "name", "should");
-		readCsv(inputFile, "", ",", false);
-		writeCsv(outputFile);
 	}
 
 	/**
@@ -161,5 +151,20 @@ public class CheckAndWriteData {
 		catch (IOException e) { 
 			e.printStackTrace(); 
 		}
+	}
+	
+	/**
+	 * This method execute all methods needed to perform the verification task.
+	 * 
+	 * @param inputFile
+	 * @param descriptionFile
+	 * @param rulesFile
+	 * @param outputFile
+	 */
+	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
+		getInvokeMethod(descriptionFile, "name", "dataType");
+		getInvokeMethod(rulesFile, "name", "should");
+		readCsv(inputFile, "", ",", false);
+		writeCsv(outputFile);
 	}
 }

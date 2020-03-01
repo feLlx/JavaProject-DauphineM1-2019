@@ -13,6 +13,13 @@ class CheckAndWriteDataTest {
 
 	CheckAndWriteData cw = new CheckAndWriteData();
 
+	/**
+	 * this method test getInvokeMethod method in CheckAndWriteData class
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 */
 	@Test
 	void getInvokeMethodTest() throws ClassNotFoundException, NoSuchMethodException, SecurityException {
 		Class<?> classWithMethod = Class.forName(cw.getRulesInstance().getClass().getCanonicalName());
@@ -31,22 +38,6 @@ class CheckAndWriteDataTest {
 		method = classWithMethod.getDeclaredMethod("INT", String.class);
 		listMethodAge.add(method);
 		listAllMethod.add(listMethodAge);
-
-		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
-
-		assertEquals(true, cw.getContentMethod().containsKey("NOM"));
-		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("NOM"));
-		assertEquals(true, cw.getContentMethod().containsKey("AGE"));
-		assertEquals(listAllMethod.get(1), cw.getContentMethod().get("AGE"));
-		assertEquals(true, cw.getContentMethod().containsKey("DATE_DE_NAISSANCE"));
-		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("DATE_DE_NAISSANCE"));
-		assertEquals(true, cw.getContentMethod().containsKey("EMAIL_PRO"));
-		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("EMAIL_PRO"));
-		assertEquals(true, cw.getContentMethod().containsKey("EMAIL_PERSO"));
-		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("EMAIL_PERSO"));
-
-		cw.getInvokeMethod("VerificationRules.json", "name", "should");
-
 		method = classWithMethod.getDeclaredMethod("BE_AN_AGE", String.class);
 		listMethodAge.add(method);
 		method = classWithMethod.getDeclaredMethod("BE_AN_EMAIL", String.class);
@@ -57,6 +48,15 @@ class CheckAndWriteDataTest {
 		listMethodEmailPro.add(method);
 		listAllMethod.add(listMethodEmailPro);
 
+		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
+		cw.getInvokeMethod("VerificationRules.json", "name", "should");
+
+		assertEquals(true, cw.getContentMethod().containsKey("NOM"));
+		assertEquals(true, cw.getContentMethod().containsKey("AGE"));
+		assertEquals(true, cw.getContentMethod().containsKey("DATE_DE_NAISSANCE"));
+		assertEquals(true, cw.getContentMethod().containsKey("EMAIL_PRO"));
+		assertEquals(true, cw.getContentMethod().containsKey("EMAIL_PERSO"));
+
 		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("NOM"));
 		assertEquals(listAllMethod.get(1), cw.getContentMethod().get("AGE"));
 		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("DATE_DE_NAISSANCE"));
@@ -64,6 +64,9 @@ class CheckAndWriteDataTest {
 		assertEquals(listAllMethod.get(2), cw.getContentMethod().get("EMAIL_PERSO"));
 	}
 
+	/**
+	 * this method test readCsv method in CheckAndWriteData class
+	 */
 	@Test
 	void getContentFileCsvTest() {
 		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
@@ -75,6 +78,9 @@ class CheckAndWriteDataTest {
 		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(1)));
 	}
 
+	/**
+	 * this method test writeCsv method in CheckAndWriteData class
+	 */
 	@Test
 	void WriteCsvTest() {
 		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
