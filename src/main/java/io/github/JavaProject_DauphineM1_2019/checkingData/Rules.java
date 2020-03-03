@@ -3,6 +3,8 @@ package io.github.JavaProject_DauphineM1_2019.checkingData;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.github.JavaProject_DauphineM1_2019.App;
+
 public class Rules {
 
 	public boolean STRING(String data) {
@@ -21,7 +23,7 @@ public class Rules {
 	public boolean BE_AN_AGE(String data) {
 		try {
 			int value = Integer.parseInt(data);
-			return value > 1 && value < 100;
+			return value > 0 && value < 120;
 		} catch (Exception e) {
 			return false;
 		}
@@ -35,10 +37,10 @@ public class Rules {
 	}
 	
 	public boolean BE_AN_DAUPHINE_EMAIL(String data) {
-		String regexDauphine = "^(([\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@dauphine.eu)|([\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@dauphine.psl.eu))$";
+		String regexDauphine = "^(([\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(dauphine.eu|dauphine.psl.eu|lamsade.dauphine.fr)))$";
 		Pattern pattern = Pattern.compile(regexDauphine);
 		Matcher mat = pattern.matcher(data);
 		return mat.matches();
 	}
-
+	
 }
