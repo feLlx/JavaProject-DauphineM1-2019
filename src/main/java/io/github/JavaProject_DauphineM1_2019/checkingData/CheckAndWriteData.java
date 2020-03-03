@@ -156,10 +156,10 @@ public class CheckAndWriteData {
 	/**
 	 * This method execute all methods needed to perform the verification task.
 	 * 
-	 * @param inputFile
-	 * @param descriptionFile
-	 * @param rulesFile
-	 * @param outputFile
+	 * @param inputFile					not <code>null</code>
+	 * @param descriptionFile			not <code>null</code>
+	 * @param rulesFile					not <code>null</code>
+	 * @param outputFile				not <code>null</code>
 	 */
 	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
 		getInvokeMethod(descriptionFile, "name", "dataType");
