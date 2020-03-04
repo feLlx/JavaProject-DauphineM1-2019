@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 
 import com.google.common.hash.Hashing;
 
-import io.github.JavaProject_DauphineM1_2019.App;
-
 public class Rules {
 
 	/**
