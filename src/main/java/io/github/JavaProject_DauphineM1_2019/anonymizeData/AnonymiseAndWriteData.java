@@ -18,14 +18,15 @@ import io.github.JavaProject_DauphineM1_2019.Rules.Rules;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
 
 public class AnonymiseAndWriteData {
-	
+
 	private HashMap<String, ArrayList<String>> contentJson = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<Method>> contentMethod = new HashMap<String, ArrayList<Method>>();
 	private List<String[]> contentFileCsv =  new ArrayList<String[]>(); 
 	private Rules rulesInstance = new Rules();
-	private String[] fields;
 
-	
+	public AnonymiseAndWriteData() {
+	}
+
 	//those getters are created for the CheckAndWriteTest class
 	public HashMap<String, ArrayList<Method>> getContentMethod() {
 		return contentMethod;
@@ -65,64 +66,12 @@ public class AnonymiseAndWriteData {
 		}
 	}
 
-
-	/**
-	 * This method read a csv and call method checkAllConditions(fields, data)
-	 * method realize thanks to : https://mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
-	 * 
-	 * @param inputFile				not <code>null</code>
-	 * @param lineSeparator			not <code>null</code>
-	 * @param dataSeparator			not <code>null</code>
-	 * @param header				not <code>null</code>
-	 */
-	public void readCsv(String inputFile, String lineSeparator, String dataSeparator, boolean header) {
-
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		File file = new File(classLoader.getResource(inputFile).getFile());
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))){
-			while ((lineSeparator = br.readLine()) != null) {
-				//first line is the header with fields name
-				if (header == false) {
-					fields = lineSeparator.split(dataSeparator);
-					header = true;
-				}
-				else {
-					String[] data = lineSeparator.split(dataSeparator);
-					anonymize(data);
-				}
-			} 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method create and write data into a csv file
-	 * Method write with the help of https://howtodoinjava.com/library/parse-read-write-csv-opencsv/
-	 * 
-	 * @param outputFile		not <code>null</code>
-	 */
-	public void writeCsv(String outputFile) {
-		String file = "src/main/resources/" + outputFile;
-		try { 
-			FileWriter outputfile = new FileWriter(file); 
-			CSVWriter writer = new CSVWriter(outputfile); 
-			writer.writeAll(contentFileCsv); 
-			writer.close(); 
-		} 
-		catch (IOException e) { 
-			e.printStackTrace(); 
-		}
-	}
-	
-
 	/**
 	 * This method anonymize a line of the csv file
 	 * 
 	 * @param data		not <code>null</code>
 	 */
-	private void anonymize(String[] data){
+	private void anonymize(String[] fields, String[] data){
 		List<String> keyList = new ArrayList<String>(contentJson.keySet());
 		Collections.reverse(keyList);
 		String result = ""; 
@@ -147,10 +96,62 @@ public class AnonymiseAndWriteData {
 			System.out.println(resultTab[i]);
 		}
 	}
-	
-	public AnonymiseAndWriteData(){
-		getInvokeMethod("AnonymisationRules.json","name","changeTo");
-		readCsv("listeEtudiants.csv", "", ",", false);
+
+	/**
+	 * This method read a csv and call method checkAllConditions(fields, data)
+	 * method realize thanks to : https://mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+	 * 
+	 * @param inputFile				not <code>null</code>
+	 * @param lineSeparator			not <code>null</code>
+	 * @param dataSeparator			not <code>null</code>
+	 * @param header				not <code>null</code>
+	 */
+	public void readCsv(String inputFile, String lineSeparator, String dataSeparator, boolean header) {
+
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		File file = new File(classLoader.getResource(inputFile).getFile());
+
+		String[] fields = null;
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(file))){
+			while ((lineSeparator = br.readLine()) != null) {
+				//first line is the header with fields name
+				if (header == false) {
+					fields = lineSeparator.split(dataSeparator);
+					header = true;
+				}
+				else {
+					String[] data = lineSeparator.split(dataSeparator);
+					anonymize(fields, data);
+				}
+			} 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * This method create and write data into a csv file
+	 * Method write with the help of https://howtodoinjava.com/library/parse-read-write-csv-opencsv/
+	 * 
+	 * @param outputFile		not <code>null</code>
+	 */
+	public void writeCsv(String outputFile) {
+		String file = "src/main/resources/" + outputFile;
+		try { 
+			FileWriter outputfile = new FileWriter(file); 
+			CSVWriter writer = new CSVWriter(outputfile); 
+			writer.writeAll(contentFileCsv); 
+			writer.close(); 
+		} 
+		catch (IOException e) { 
+			e.printStackTrace(); 
+		}
+	}
+
+	public AnonymiseAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile){
+		getInvokeMethod(rulesFile,"name","changeTo");
+		readCsv(inputFile, "", ",", false);
+		writeCsv(outputFile);
+	}
 }
