@@ -1,4 +1,4 @@
-package io.github.JavaProject_DauphineM1_2019.checkingData;
+package io.github.JavaProject_DauphineM1_2019.Rules;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

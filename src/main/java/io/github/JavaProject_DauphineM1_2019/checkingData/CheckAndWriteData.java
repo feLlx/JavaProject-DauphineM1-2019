@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import io.github.JavaProject_DauphineM1_2019.Rules.Rules;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
 
 public class CheckAndWriteData {
