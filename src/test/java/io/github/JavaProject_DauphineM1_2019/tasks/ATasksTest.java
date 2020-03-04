@@ -1,4 +1,4 @@
-package io.github.JavaProject_DauphineM1_2019.checkingData;
+package io.github.JavaProject_DauphineM1_2019.tasks;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import io.github.JavaProject_DauphineM1_2019.tasks.check.CheckData;
 
-class CheckAndWriteDataTest {
+class ATasksTest {
 
 	CheckData cw = new CheckData();
 
 	/**
-	 * this method test getInvokeMethod method in CheckAndWriteData class
+	 * this method test getInvokeMethod method in ATasks class
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws NoSuchMethodException
@@ -67,7 +67,7 @@ class CheckAndWriteDataTest {
 	}
 
 	/**
-	 * this method test readCsv method in CheckAndWriteData class
+	 * this method test readCsv method in ATasks class
 	 */
 	@Test
 	void getContentFileCsvTest() {
@@ -81,7 +81,7 @@ class CheckAndWriteDataTest {
 	}
 
 	/**
-	 * this method test writeCsv method in CheckAndWriteData class
+	 * this method test writeCsv method in ATasks class
 	 */
 	@Test
 	void WriteCsvTest() {
