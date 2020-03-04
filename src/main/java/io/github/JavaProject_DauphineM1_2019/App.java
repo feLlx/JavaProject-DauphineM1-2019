@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.JavaProject_DauphineM1_2019.checkingData.CheckAndWriteData;
+import io.github.JavaProject_DauphineM1_2019.tasks.check.CheckData;
 
 public class App {
 	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
@@ -38,7 +38,7 @@ public class App {
 			String outputFile = line[3];
 			
 			@SuppressWarnings("unused")
-			CheckAndWriteData cw = new CheckAndWriteData(inputFile, descFile, ruleFile, outputFile);
+			CheckData cw = new CheckData(inputFile, descFile, ruleFile, outputFile);
 			LOGGER.info("Application closed");
 		}
 		else if (Integer.parseInt(input) == 2) {

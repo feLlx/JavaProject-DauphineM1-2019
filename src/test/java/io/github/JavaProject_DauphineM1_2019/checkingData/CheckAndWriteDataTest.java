@@ -9,9 +9,11 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import io.github.JavaProject_DauphineM1_2019.tasks.check.CheckData;
+
 class CheckAndWriteDataTest {
 
-	CheckAndWriteData cw = new CheckAndWriteData();
+	CheckData cw = new CheckData();
 
 	/**
 	 * this method test getInvokeMethod method in CheckAndWriteData class
