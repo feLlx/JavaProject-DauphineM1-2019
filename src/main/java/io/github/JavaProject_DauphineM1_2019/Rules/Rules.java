@@ -1,8 +1,13 @@
 package io.github.JavaProject_DauphineM1_2019.Rules;
 
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.RandomStringUtils;
+
+import com.google.common.hash.Hashing;
+
+import io.github.JavaProject_DauphineM1_2019.App;
 
 public class Rules {
 
@@ -67,23 +72,15 @@ public class Rules {
 		Matcher mat = pattern.matcher(data);
 		return mat.matches();
 	}
-
-	public String RANDOM_LETTER(String stringToAnonymize){
-	    String anonymization="";
-	    
-	    for (char ch: stringToAnonymize.toCharArray()) {
-		    if(Character.isLetter(ch)){
-				anonymization+=RandomStringUtils.randomAlphabetic(1);	
-		    }else{
-		    	anonymization+=ch;
-		    }
-	    }
-		return anonymization;		
+	
+	public String RANDOM_LETTER(String s) {
+		return Hashing.sha256().hashString(s, StandardCharsets.UTF_8).toString().substring(0, s.length());
 	}
 	
-	public String RANDOM_LETTER_FOR_LOCAL_PART(String stringToAnonymize, Character symbol){
-	    String anonymization= stringToAnonymize.substring(0, stringToAnonymize.indexOf(symbol.toString()));
-		return RANDOM_LETTER(anonymization);
+	public String RANDOM_LETTER_FOR_LOCAL_PART(String stringToAnonymize){
+	    String anonymization= stringToAnonymize.substring(0, stringToAnonymize.indexOf("@"));
+	    String endString= stringToAnonymize.substring(stringToAnonymize.indexOf("@"));
+	    return RANDOM_LETTER(anonymization) + endString;
 	}
 	
 }
