@@ -97,4 +97,8 @@ public class Rules {
 			return data;
 	}
 
+	public static void main(String[] args) {
+		Rules r=new Rules();
+		System.out.println(r.RANDOM_LETTER_FOR_LOCAL_PART("alison123@gmail.com"));
+	}
 }
