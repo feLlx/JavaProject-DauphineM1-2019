@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 import com.google.common.hash.Hashing;
 
+import io.github.JavaProject_DauphineM1_2019.App;
+
 public class Rules {
 
 	/**
@@ -69,7 +71,7 @@ public class Rules {
 		Matcher mat = pattern.matcher(data);
 		return mat.matches();
 	}
-	
+
 	/**
 	 * This method replace each letter of a string with another letter
 	 * with the help of https://mkyong.com/java/java-md5-hashing-example/ And https://www.baeldung.com/sha-256-hashing-java
@@ -80,17 +82,21 @@ public class Rules {
 	public String RANDOM_LETTER(String data) {
 		return Hashing.sha256().hashString(data, StandardCharsets.UTF_8).toString().substring(0, data.length());
 	}
-	
+
 	/**
 	 * This method replace each letter of the first part of a mail with another letter
 	 * 
 	 * @param data
-	 * @return data with the first part with random letter
+	 * @return data with the first part with random letter or data if data is not an email
 	 */
 	public String RANDOM_LETTER_FOR_LOCAL_PART(String data){
-	    String beginningString = data.substring(0, data.indexOf("@"));
-	    String endString = data.substring(data.indexOf("@"));
-	    return RANDOM_LETTER(beginningString) + endString;
+		if (this.BE_AN_EMAIL(data)) {
+			String beginningString = data.substring(0, data.indexOf("@"));
+			String endString = data.substring(data.indexOf("@"));
+			return RANDOM_LETTER(beginningString) + endString;
+		}
+		else
+			return data;
 	}
-	
+
 }
