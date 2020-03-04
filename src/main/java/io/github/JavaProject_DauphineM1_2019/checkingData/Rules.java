@@ -2,6 +2,7 @@ package io.github.JavaProject_DauphineM1_2019.checkingData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class Rules {
 
@@ -67,4 +68,22 @@ public class Rules {
 		return mat.matches();
 	}
 
+	public String RANDOM_LETTER(String stringToAnonymize){
+	    String anonymization="";
+	    
+	    for (char ch: stringToAnonymize.toCharArray()) {
+		    if(Character.isLetter(ch)){
+				anonymization+=RandomStringUtils.randomAlphabetic(1);	
+		    }else{
+		    	anonymization+=ch;
+		    }
+	    }
+		return anonymization;		
+	}
+	
+	public String RANDOM_LETTER_FOR_LOCAL_PART(String stringToAnonymize, Character symbol){
+	    String anonymization= stringToAnonymize.substring(0, stringToAnonymize.indexOf(symbol.toString()));
+		return RANDOM_LETTER(anonymization);
+	}
+	
 }
