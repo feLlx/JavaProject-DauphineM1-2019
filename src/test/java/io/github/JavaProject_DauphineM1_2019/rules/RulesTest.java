@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import io.github.JavaProject_DauphineM1_2019.Rules.Rules;
+import io.github.JavaProject_DauphineM1_2019.rules.Rules;
 
 class RulesTest {
 	

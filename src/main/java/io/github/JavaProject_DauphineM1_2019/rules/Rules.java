@@ -1,4 +1,4 @@
-package io.github.JavaProject_DauphineM1_2019.Rules;
+package io.github.JavaProject_DauphineM1_2019.rules;
 
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
