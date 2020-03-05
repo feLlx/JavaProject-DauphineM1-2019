@@ -32,8 +32,6 @@ public class AnonymizeData extends ATasks{
 			for(Method met:listMethod){
 				try {					
 					result+=met.invoke(super.getRulesInstance(), data[placeInHeader]);
-					if (j != super.getContentMethod().size() - 1)
-						result += ",";
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 				}

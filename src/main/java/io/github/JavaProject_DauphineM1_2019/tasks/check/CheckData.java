@@ -37,12 +37,13 @@ public class CheckData extends ATasks {
 		if (allTrue.stream().allMatch(i -> i == true)) {
 			String result = ""; 
 			for (int l = 0; l < super.getContentMethod().size(); l++) {
-				result += data[l];
-				if (l != super.getContentMethod().size() - 1)
-					result += ",";
+				result += data[l] + ",";
 			}
 			String[] resultTab = result.split(",");
 			super.getContentFileCsv().add(resultTab);
+			for(int i=0;i<resultTab.length;++i){
+				System.out.println(resultTab[i]);
+			}
 		}
 	}
 	
