@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.swing.JPopupMenu.Separator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,40 +31,48 @@ public class App {
 		try {
 			if (Integer.parseInt(input) == 1 || Integer.parseInt(input) == 2 || Integer.parseInt(input) == 3) {
 				String message = "Please enter in this order and separated with space : \n"
-						+ "file name and extension of input file \n"
-						+ "file name and extension of description file \n";
+						+ "file name and extension of input file (should be of type csv) \n"
+						+ "file name and extension of description file (should be json file) \n";
 				if (Integer.parseInt(input) != 3)
-					message += "file name and extension of rule file \n";
+					message += "file name and extension of rule file (should be json file) \n";
 				else
-					message += "file name and extension of rule file for checking \n"
-							+ "file name and extension of rule file for anonymization \n";
-				message += "file name and extension of output file \n";
-
+					message += "file name and extension of rule file for checking (should be json file) \n"
+							+ "file name and extension of rule file for anonymization (should be json file) \n";
+				message += "file name and extension of output file (should be csv file) \n";
+				
 				LOGGER.info(message);
-				String[] line = new String[5]; 
+				LOGGER.info("Precise the separatorof your input file. For a csv enter a comma.");
+				String[] line = new String[6]; 
 				line = in.readLine().split(" "); 
 				String inputFile = line[0];  
 				String descFile = line[1];
 				String ruleFile = line[2];
 				String outputFile = line[3];
+				String separator = line[4];
 
 				if (Integer.parseInt(input) == 1) {
-					@SuppressWarnings("unused")
-					CheckData cd = new CheckData(inputFile, descFile, ruleFile, outputFile);	
+					CheckData cd = new CheckData();	
+					cd.getInvokeMethod(descFile, "name", "dataType");
+					cd.getInvokeMethod(ruleFile, "name", "should");
+					cd.readCsv(inputFile, "", separator, false);
+					cd.writeCsv(outputFile);
 				}
 				else if (Integer.parseInt(input) == 2) {
-					@SuppressWarnings("unused")
-					AnonymizeData ad = new AnonymizeData(inputFile, descFile, ruleFile, outputFile);	
+					AnonymizeData ad = new AnonymizeData();	
+					ad.getInvokeMethod(ruleFile,"name","changeTo");
+					ad.readCsv(inputFile, "", separator, false);
+					ad.writeCsv(outputFile);
 				}
 				else if (Integer.parseInt(input) == 3) {
 					String checkRuleFile = line[2];  
 					String anonymRuleFile = line[3]; 
 					outputFile = line[4];
+					separator = line[5];
 
 					CheckData cd = new CheckData();
 					cd.getInvokeMethod(descFile, "name", "dataType");
 					cd.getInvokeMethod(checkRuleFile, "name", "should");
-					cd.readCsv(inputFile, "", ",", false);
+					cd.readCsv(inputFile, "", separator, false);
 					AnonymizeData ad = new AnonymizeData();	
 					ad.getInvokeMethod(anonymRuleFile,"name","changeTo");
 					String temp ="";

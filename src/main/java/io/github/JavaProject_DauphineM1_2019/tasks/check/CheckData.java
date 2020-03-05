@@ -43,20 +43,5 @@ public class CheckData extends ATasks {
 			super.getContentFileCsv().add(resultTab);
 		}
 	}
-	
-	/**
-	 * This constructor execute all methods needed to perform the verification task.
-	 * 
-	 * @param inputFile					not <code>null</code>
-	 * @param descriptionFile			not <code>null</code>
-	 * @param rulesFile					not <code>null</code>
-	 * @param outputFile				not <code>null</code>
-	 */
-	public CheckData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
-		getInvokeMethod(descriptionFile, "name", "dataType");
-		getInvokeMethod(rulesFile, "name", "should");
-		readCsv(inputFile, "", ",", false);
-		writeCsv(outputFile);
-	}
 
 }

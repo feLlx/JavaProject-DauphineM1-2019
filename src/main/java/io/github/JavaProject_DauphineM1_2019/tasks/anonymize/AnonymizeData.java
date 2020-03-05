@@ -40,18 +40,4 @@ public class AnonymizeData extends ATasks{
 		String[] resultTab = result.split(",");
 		super.getContentFileCsv().add(resultTab);
 	}
-
-	/**
-	 * This constructor execute all methods needed to perform the anonymize task.
-	 * 
-	 * @param inputFile					not <code>null</code>
-	 * @param descriptionFile			not <code>null</code>
-	 * @param rulesFile					not <code>null</code>
-	 * @param outputFile				not <code>null</code>
-	 */
-	public AnonymizeData(String inputFile, String descriptionFile, String rulesFile, String outputFile){
-		getInvokeMethod(rulesFile,"name","changeTo");
-		readCsv(inputFile, "", ",", false);
-		writeCsv(outputFile);
-	}
 }
