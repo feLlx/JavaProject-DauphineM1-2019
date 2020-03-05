@@ -1,4 +1,4 @@
-package io.github.JavaProject_DauphineM1_2019;
+package io.github.JavaProject_DauphineM1_2019.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
