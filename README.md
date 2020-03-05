@@ -16,18 +16,18 @@ More information on the project guidelines (in French) [here](https://github.com
 ## RoadMap
 #### deadline : 05/03/20
 
-* Build the project (maven project, travis, log system)
-* Json file manipulation (read)
-* Checking data
-* Data Anonymization
+* Build the project (maven project, travis, log system) - done
+* Json file manipulation (read) - done
+* Checking data - done
+* Data Anonymization - done
 
 The features below will be developed if we have the time
 
-* Add more rules for verification and anonymization
-* Check AND anonymize at the same time
-* Consider alternative separators for csv files
-* Take into account that a line does not necessarily correspond to an entry (entry on several lines or a line contains several entries),
-* Consider other file types (flatfile, etc.)
+* Add more rules for verification and anonymization - done
+* Check AND anonymize at the same time - done
+* Consider alternative separators for csv files - done
+* Take into account that a line does not necessarily correspond to an entry (entry on several lines or a line contains several entries) - not done
+* Consider other file types (flatfile, etc.) - not done
 
 ## Built With
 
