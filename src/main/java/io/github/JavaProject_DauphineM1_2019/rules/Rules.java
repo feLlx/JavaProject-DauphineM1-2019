@@ -112,10 +112,13 @@ public class Rules {
 	 * @return boolean
 	 */
 	public boolean BE_A_PHONE_NUMBER(String data) {
-		String regexPhone = "(0/91)?[6-9][0-9]{9}";
-		Pattern pattern = Pattern.compile(regexPhone);
-		Matcher mat = pattern.matcher(data);
-		return mat.matches();
+		if (data.matches("[0-9]+") && data.length() == 10 &&
+				data.charAt(0) == '0' &&
+				(data.charAt(1) == '6' || data.charAt(1) == '7' ||
+				data.charAt(1) == '8' || data.charAt(1) == '9'))
+			return true;
+		else
+			return false;
 	}
 	
 	/**
