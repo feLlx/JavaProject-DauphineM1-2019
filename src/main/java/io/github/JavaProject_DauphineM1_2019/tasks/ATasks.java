@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -85,6 +86,13 @@ public abstract class ATasks implements ITasks {
 				if (header == false) {
 					fields = lineSeparator.split(dataSeparator);
 					header = true;
+					String headerNewFile = "";
+					for (int i = 0; i < fields.length; i++) {
+						if (contentMethod.containsKey(fields[i]))
+							headerNewFile += fields[i] + ",";
+					}
+					String[] fieldsHeader = headerNewFile.split(",");
+					contentFileCsv.add(fieldsHeader);
 				}
 				else {
 					String[] data = lineSeparator.split(dataSeparator);
