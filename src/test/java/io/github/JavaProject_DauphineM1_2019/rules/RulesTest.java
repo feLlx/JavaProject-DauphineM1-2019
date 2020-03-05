@@ -1,8 +1,11 @@
-package io.github.JavaProject_DauphineM1_2019.checkingData;
+package io.github.JavaProject_DauphineM1_2019.rules;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import io.github.JavaProject_DauphineM1_2019.rules.Rules;
 
 class RulesTest {
 	
@@ -50,12 +53,31 @@ class RulesTest {
 	 * this method test BE_AN_DAUPHINE_EMAIL method in Rules class
 	 */
 	@Test
-	void BeAnDauphineEmailtest() {
+	void BeAnDauphineEmailTest() {
 		assertFalse(r.BE_AN_DAUPHINE_EMAIL("test@gmail.com"));
 		assertFalse(r.BE_AN_DAUPHINE_EMAIL("xxx@yyy.zzz"));
 		assertTrue(r.BE_AN_DAUPHINE_EMAIL("test@dauphine.eu"));
 		assertTrue(r.BE_AN_DAUPHINE_EMAIL("test@dauphine.psl.eu"));
 		assertTrue(r.BE_AN_DAUPHINE_EMAIL("test@lamsade.dauphine.fr"));
+	}
+	
+	/**
+	 * this method test RANDOM_LETTER method in Rules class
+	 */
+	@Test
+	void RandomLetterTest() {
+		String anoVar = r.RANDOM_LETTER("Test Variable");
+		assertEquals(anoVar, r.RANDOM_LETTER("Test Variable"));
+	}
+	
+	/**
+	 * this method test RANDOM_LETTER_FOR_LOCAL_PART method in Rules class
+	 */
+	@Test
+	void RandomLetterForLocalPartTest() {
+		assertEquals("Test Variable", r.RANDOM_LETTER_FOR_LOCAL_PART("Test Variable"));
+		String anoVar = r.RANDOM_LETTER("test");
+		assertEquals(anoVar + "@gmail.com", r.RANDOM_LETTER_FOR_LOCAL_PART("test@gmail.com"));
 	}
 
 }

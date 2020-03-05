@@ -1,20 +1,21 @@
-package io.github.JavaProject_DauphineM1_2019.checkingData;
+package io.github.JavaProject_DauphineM1_2019.tasks;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-class CheckAndWriteDataTest {
+import io.github.JavaProject_DauphineM1_2019.tasks.check.CheckData;
 
-	CheckAndWriteData cw = new CheckAndWriteData();
+class ATasksTest {
+
+	CheckData cw = new CheckData();
 
 	/**
-	 * this method test getInvokeMethod method in CheckAndWriteData class
+	 * this method test getInvokeMethod method in ATasks class
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws NoSuchMethodException
@@ -65,21 +66,7 @@ class CheckAndWriteDataTest {
 	}
 
 	/**
-	 * this method test readCsv method in CheckAndWriteData class
-	 */
-	@Test
-	void getContentFileCsvTest() {
-		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
-		cw.getInvokeMethod("VerificationRules.json", "name", "should");
-		cw.readCsv("listeEtudiants.csv", "", ",", false);
-		String[] ExpectedLine = "John,22,01/01/1998,john.smith@dauphine.eu,jhon.smith@gmail.com".split(",");
-		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(0)));
-		ExpectedLine = "Will,24,28/02/1995,will.huv@dauphine.eu,willhuv1@hotmail.com".split(",");
-		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(1)));
-	}
-
-	/**
-	 * this method test writeCsv method in CheckAndWriteData class
+	 * this method test writeCsv method in ATasks class
 	 */
 	@Test
 	void WriteCsvTest() {

@@ -7,7 +7,8 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.JavaProject_DauphineM1_2019.checkingData.CheckAndWriteData;
+import io.github.JavaProject_DauphineM1_2019.tasks.anonymize.AnonymizeData;
+import io.github.JavaProject_DauphineM1_2019.tasks.check.CheckData;
 
 public class App {
 	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
@@ -24,7 +25,7 @@ public class App {
 				"2 - Anonymize the data in a csv file according to the rules indicated in a json file \n");
 		LOGGER.info("Please enter 1 or 2 depending on the task you wish to perform");
 		String input = in.readLine();
-		if (Integer.parseInt(input) == 1) {
+		if (Integer.parseInt(input) == 1 || Integer.parseInt(input) == 2) {
 			LOGGER.info("Please enter in this order and separated : \n"
 					+ "file name and extension of input file \n"
 					+ "file name and extension of description file \n"
@@ -36,13 +37,17 @@ public class App {
 			String descFile = line[1];  
 			String ruleFile = line[2];  
 			String outputFile = line[3];
-			
-			@SuppressWarnings("unused")
-			CheckAndWriteData cw = new CheckAndWriteData(inputFile, descFile, ruleFile, outputFile);
+
+			if (Integer.parseInt(input) == 1) {
+				@SuppressWarnings("unused")
+				CheckData cd = new CheckData(inputFile, descFile, ruleFile, outputFile);	
+			}
+			else {
+				@SuppressWarnings("unused")
+				AnonymizeData ad = new AnonymizeData(inputFile, descFile, ruleFile, outputFile);	
+			}
+			LOGGER.info("Succes");
 			LOGGER.info("Application closed");
-		}
-		else if (Integer.parseInt(input) == 2) {
-			LOGGER.info("Feature not develop yet");
 		}
 		else {
 			LOGGER.info("Application closed");

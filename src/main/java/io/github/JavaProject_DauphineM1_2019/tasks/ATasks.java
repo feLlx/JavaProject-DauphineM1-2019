@@ -1,11 +1,10 @@
-package io.github.JavaProject_DauphineM1_2019.checkingData;
+package io.github.JavaProject_DauphineM1_2019.tasks;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,18 +13,15 @@ import java.util.Map.Entry;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import io.github.JavaProject_DauphineM1_2019.json.ReadJson;
+import io.github.JavaProject_DauphineM1_2019.rules.Rules;
 
-public class CheckAndWriteData {
-
+public abstract class ATasks implements ITasks {
+	
 	private HashMap<String, ArrayList<String>> contentJson = new HashMap<String, ArrayList<String>>();
 	private HashMap<String, ArrayList<Method>> contentMethod = new HashMap<String, ArrayList<Method>>();
 	private List<String[]> contentFileCsv =  new ArrayList<String[]>(); 
 	private Rules rulesInstance = new Rules();
 
-	public CheckAndWriteData() {
-	}
-	
-	//those getters are created for the CheckAndWriteTest class
 	public HashMap<String, ArrayList<String>> getContentJson() {
 		return contentJson;
 	}
@@ -38,7 +34,7 @@ public class CheckAndWriteData {
 	public Rules getRulesInstance() {
 		return rulesInstance;
 	}
-
+	
 	/**
 	 * This method read a hashmap that contains method name per fields and store those methods in a hashmap.
 	 * 
@@ -68,40 +64,6 @@ public class CheckAndWriteData {
 	}
 
 	/**
-	 * This method check if you can apply methods stock in a hashmap to the corresponding data.
-	 * Add true or false in a tab depending on the result
-	 * If there is all true, add datas to a list, if not ignore datas
-	 * 
-	 * @param fields		not <code>null</code>
-	 * @param data			not <code>null</code>
-	 */
-	private void checkAllConditions(String[] fields, String[] data) {
-		List<Boolean> allTrue = new ArrayList<Boolean>();
-		for (int j = 0; j < contentMethod.size(); j++) {
-			List<Method> listMethod = contentMethod.get(fields[j]);
-			final int index = j;
-			listMethod.stream().allMatch(i -> {
-				try {
-					allTrue.add((boolean) i.invoke(rulesInstance, data[index]));
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				return true;
-			});
-		}
-		if (allTrue.stream().allMatch(i -> i == true)) {
-			String result = ""; 
-			for (int l = 0; l < contentMethod.size(); l++) {
-				result += data[l];
-				if (l != contentMethod.size() - 1)
-					result += ",";
-			}
-			String[] resultTab = result.split(",");
-			contentFileCsv.add(resultTab);
-		}
-	}
-
-	/**
 	 * This method read a csv and call method checkAllConditions(fields, data)
 	 * method realize thanks to : https://mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
 	 * 
@@ -116,24 +78,31 @@ public class CheckAndWriteData {
 		File file = new File(classLoader.getResource(inputFile).getFile());
 
 		String[] fields = null;
-
+		
 		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			while ((lineSeparator = br.readLine()) != null) {
 				//first line is the header with fields name
 				if (header == false) {
 					fields = lineSeparator.split(dataSeparator);
 					header = true;
+					String headerNewFile = "";
+					for (int i = 0; i < fields.length; i++) {
+						if (contentMethod.containsKey(fields[i]))
+							headerNewFile += fields[i] + ",";
+					}
+					String[] fieldsHeader = headerNewFile.split(",");
+					contentFileCsv.add(fieldsHeader);
 				}
 				else {
 					String[] data = lineSeparator.split(dataSeparator);
-					checkAllConditions(fields, data);
+					executeTask(fields, data);
 				}
 			} 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * This method create and write data into a csv file
 	 * Method write with the help of https://howtodoinjava.com/library/parse-read-write-csv-opencsv/
@@ -152,19 +121,5 @@ public class CheckAndWriteData {
 			e.printStackTrace(); 
 		}
 	}
-	
-	/**
-	 * This method execute all methods needed to perform the verification task.
-	 * 
-	 * @param inputFile					not <code>null</code>
-	 * @param descriptionFile			not <code>null</code>
-	 * @param rulesFile					not <code>null</code>
-	 * @param outputFile				not <code>null</code>
-	 */
-	public CheckAndWriteData(String inputFile, String descriptionFile, String rulesFile, String outputFile) {
-		getInvokeMethod(descriptionFile, "name", "dataType");
-		getInvokeMethod(rulesFile, "name", "should");
-		readCsv(inputFile, "", ",", false);
-		writeCsv(outputFile);
-	}
+
 }
