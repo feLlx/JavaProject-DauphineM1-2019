@@ -132,7 +132,7 @@ class RulesTest {
 	}
 	
 	/**
-	 * this method test RANDOM_LETTER_FOR_LOCAL_PART method in Rules class
+	 * this method test CONFIDENTIAL method in Rules class
 	 */
 	@Test
 	void ConfidentialTest() {
@@ -140,7 +140,7 @@ class RulesTest {
 	}
 	
 	/**
-	 * this method test RANDOM_LETTER_FOR_LOCAL_PART method in Rules class
+	 * this method test NATIONALITY method in Rules class
 	 */
 	@Test
 	void NationalityTest() {
