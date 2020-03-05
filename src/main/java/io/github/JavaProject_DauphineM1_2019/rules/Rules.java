@@ -32,6 +32,21 @@ public class Rules {
 		}
 		return true;
 	}
+	
+	/**
+	 * This method check if the parameter is a double
+	 * 
+	 * @param data
+	 * @return boolean
+	 */
+	public boolean DOUBLE(String data) {
+		try {
+			Double.parseDouble(data);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * This method check if the parameter is an Integer and in the interval ]0;120[
@@ -43,6 +58,26 @@ public class Rules {
 		return this.INT(data) && Integer.parseInt(data) > 0 && Integer.parseInt(data) < 120;
 	}
 
+	/**
+	 * This method check if the parameter is an Integer and => 18
+	 * 
+	 * @param data
+	 * @return boolean
+	 */
+	public boolean BE_AN_ADULT(String data) {
+		return this.INT(data) && Integer.parseInt(data) > 17;
+	}
+	
+	/**
+	 * This method check if the parameter is an Integer and => 21
+	 * 
+	 * @param data
+	 * @return boolean
+	 */
+	public boolean BE_AN_ADULT_USA(String data) {
+		return this.INT(data) && Integer.parseInt(data) > 20;
+	}
+	
 	/**
 	 * This method check if the parameter respect the regEx of a mail (XXX@YYY.ZZ)
 	 * 
@@ -68,6 +103,29 @@ public class Rules {
 		Pattern pattern = Pattern.compile(regexDauphine);
 		Matcher mat = pattern.matcher(data);
 		return mat.matches();
+	}
+	
+	/**
+	 * This method check if the parameter respect the regEx of a phone number
+	 * 
+	 * @param data
+	 * @return boolean
+	 */
+	public boolean BE_A_PHONE_NUMBER(String data) {
+		String regexPhone = "(0/91)?[6-9][0-9]{9}";
+		Pattern pattern = Pattern.compile(regexPhone);
+		Matcher mat = pattern.matcher(data);
+		return mat.matches();
+	}
+	
+	/**
+	 * This method check if the parameter is a Double and > french smic
+	 * 
+	 * @param data
+	 * @return boolean
+	 */
+	public boolean SALARY_MORE_THAN_FRENCH_SMIC(String data) {
+		return this.DOUBLE(data) && Double.parseDouble(data) > 1219.F;
 	}
 
 	/**
@@ -95,6 +153,28 @@ public class Rules {
 		}
 		else
 			return data;
+	}
+	
+	/**
+	 * This method replace the data with the word confidential
+	 * 
+	 * @param data
+	 * @return "confidential"
+	 */
+	public String CONFIDENTIAL(String data){
+		return "confidential";
+	}
+	
+	/**
+	 * This method replace the nationality of non french people with nationality foreign
+	 * 
+	 * @param data
+	 * @return "foreign"
+	 */
+	public String NATIONALITY(String data){
+		if (data != "french")
+			return "foreign";
+		return data;
 	}
 
 }
