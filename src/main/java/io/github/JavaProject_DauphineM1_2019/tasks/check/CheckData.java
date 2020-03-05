@@ -41,9 +41,6 @@ public class CheckData extends ATasks {
 			}
 			String[] resultTab = result.split(",");
 			super.getContentFileCsv().add(resultTab);
-			for(int i=0;i<resultTab.length;++i){
-				System.out.println(resultTab[i]);
-			}
 		}
 	}
 	

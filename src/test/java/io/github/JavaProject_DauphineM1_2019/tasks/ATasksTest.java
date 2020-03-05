@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
@@ -64,20 +63,6 @@ class ATasksTest {
 		assertEquals(listAllMethod.get(0), cw.getContentMethod().get("DATE_DE_NAISSANCE"));
 		assertEquals(listAllMethod.get(3), cw.getContentMethod().get("EMAIL_PRO"));
 		assertEquals(listAllMethod.get(2), cw.getContentMethod().get("EMAIL_PERSO"));
-	}
-
-	/**
-	 * this method test readCsv method in ATasks class
-	 */
-	@Test
-	void getContentFileCsvTest() {
-		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
-		cw.getInvokeMethod("VerificationRules.json", "name", "should");
-		cw.readCsv("listeEtudiants.csv", "", ",", false);
-		String[] ExpectedLine = "John,22,01/01/1998,john.smith@dauphine.eu,jhon.smith@gmail.com".split(",");
-		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(0)));
-		ExpectedLine = "Will,24,28/02/1995,will.huv@dauphine.eu,willhuv1@hotmail.com".split(",");
-		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(1)));
 	}
 
 	/**
