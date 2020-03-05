@@ -16,7 +16,7 @@ class AnonymizeDataTest {
 	 */
 	@Test
 	void getContentFileCsvCheckTest() {
-		ad.getInvokeMethod("AnonymisationRules.json", "name", "changeTo");
+		ad.getInvokeMethod("AnonymizationRules.json", "name", "changeTo");
 		ad.readCsv("listeEtudiants.csv", "", ",", false);
 		String[] ExpectedLine = "NOM,EMAIL_PERSO".split(",");
 		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(ad.getContentFileCsv().get(0)));
