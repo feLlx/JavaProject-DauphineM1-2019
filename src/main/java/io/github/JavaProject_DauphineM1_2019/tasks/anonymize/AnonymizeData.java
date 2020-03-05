@@ -17,6 +17,7 @@ public class AnonymizeData extends ATasks{
 	/**
 	 * This method anonymize a line of the csv file
 	 * 
+	 * @param fields	not <code>null</code>
 	 * @param data		not <code>null</code>
 	 */
 	public void executeTask(String[] fields, String[] data){
