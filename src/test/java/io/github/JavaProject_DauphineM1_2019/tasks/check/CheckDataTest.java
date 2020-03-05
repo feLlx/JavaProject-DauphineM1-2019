@@ -11,13 +11,29 @@ class CheckDataTest {
 	CheckData cw = new CheckData();
 
 	/**
-	 * this method test readCsv method in ATasks class when concrete class is CheckData
+	 * this method test readCsv method in ATasks class when concrete class is CheckData and file is a csv
 	 */
 	@Test
 	void getContentFileCsvCheckTest() {
 		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
 		cw.getInvokeMethod("VerificationRules.json", "name", "should");
 		cw.readCsv("listeEtudiants.csv", "", ",", false);
+		String[] ExpectedLine = "NOM,AGE,DATE_DE_NAISSANCE,EMAIL_PRO,EMAIL_PERSO".split(",");
+		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(0)));
+		ExpectedLine = "John,22,01/01/1998,john.smith@dauphine.eu,jhon.smith@gmail.com".split(",");
+		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(1)));
+		ExpectedLine = "Will,24,28/02/1995,will.huv@dauphine.eu,willhuv1@hotmail.com".split(",");
+		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(2)));
+	}
+	
+	/**
+	 * this method test readCsv method in ATasks class when concrete class is CheckData and file is a tsv
+	 */
+	@Test
+	void getContentFileTsvCheckTest() {
+		cw.getInvokeMethod("ObjectsDescription.json", "name", "dataType");
+		cw.getInvokeMethod("VerificationRules.json", "name", "should");
+		cw.readCsv("listeEtudiants.tsv", "", "\t", false);
 		String[] ExpectedLine = "NOM,AGE,DATE_DE_NAISSANCE,EMAIL_PRO,EMAIL_PERSO".split(",");
 		assertEquals(Arrays.toString(ExpectedLine), Arrays.toString(cw.getContentFileCsv().get(0)));
 		ExpectedLine = "John,22,01/01/1998,john.smith@dauphine.eu,jhon.smith@gmail.com".split(",");
