@@ -31,7 +31,7 @@ public class AnonymizeData extends ATasks{
 			final int placeInHeader= header_.indexOf(keyList.get(j));
 			for(Method met:listMethod){
 				try {					
-					result+=met.invoke(super.getRulesInstance(), data[placeInHeader]);
+					result+=met.invoke(super.getRulesInstance(), data[placeInHeader]) + ",";
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 				}
